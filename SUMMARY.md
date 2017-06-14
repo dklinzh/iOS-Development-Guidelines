@@ -6,7 +6,7 @@
   * [2.1. 代码命名基础](2/21.md)
   * [2.2. 方法\(Method\)命名](2/22.md)
   * [2.3. 函数\(Function\)命名](2/23.md)
-  * [2.4. 属性\(Proterty\)与数据类型命名](2/24-shu-602728-proterty-yu-shu-ju-lei-xing-ming-ming.md)
+  * [2.4. 属性\(Property\)与数据类型命名](2/24-shu-602728-proterty-yu-shu-ju-lei-xing-ming-ming.md)
   * [2.5. 其它命名规范](2/25-qi-ta-ming-ming-gui-fan.md)
   * [2.6. 可接受缩略名](2/26-ke-jie-shou-suo-lve-ming.md)
 
