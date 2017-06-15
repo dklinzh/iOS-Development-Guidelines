@@ -2,10 +2,10 @@
 
 ---
 
-在设计编程接口时,通常名称不要缩写。然而,下面列出的缩写要么是固定下来的要么是过去被广泛使用 的,所以你可以继续使用。关于缩写有一些额外的注意事项:
+在设计编程接口时,通常名称不要缩写。然而下面列出的缩写要么是固定下来的,要么是过去被广泛使用的,所以你可以继续使用。关于缩写有一些额外的注意事项:
 
 * 标准 C 库中长期使用的缩写形式是可以接受的。如:"alloc", "getc"
-* 你可以在参数名中更自由地使用缩写。如:imageRep, col\(column\), obj, otherWin
+* 你可以在参数名中更自由地使用缩写。如:"imageRep", "col"\("column"\), "obj", "otherWin"
 
 ## **常见的缩写** {#常见的缩写}
 
@@ -34,7 +34,22 @@
 ## **常见的略写** {#常见的略写}
 
 ```
-ASCII,PDF,XML,HTML,URL,RTF,HTTP,TIFF JPG,GIF,LZW,ROM,RGB,CMYK,MIDI,FTP
+ASCII
+PDF
+XML
+HTML
+URL
+RTF
+HTTP
+TIFF
+JPG
+GIF
+LZW
+ROM
+RGB
+CMYK
+MIDI
+FTP
 ```
 
 
