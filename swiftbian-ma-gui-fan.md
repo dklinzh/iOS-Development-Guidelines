@@ -2,6 +2,10 @@
 
 ---
 
+## **正确性**
+
+把警告当做错误处理。这条规则从根本禁止了一些文法使用，如推荐使用**\#selector**文而不是用字符串\(更多请阅读[Swift 3为什么推荐使用\#selector](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md)\)。
+
 ## 命名\(Naming\) {#命名(Naming)}
 
 使用驼峰式的描述性命名方式，为类，方法，变量等命名。类名的首字母应该大写，而方法和变量的首字母使用小写字符。
@@ -548,6 +552,4 @@ let colour = "red"
 * THE SOFTWARE.
 
 \*/
-
-
 
