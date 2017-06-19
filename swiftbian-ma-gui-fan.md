@@ -149,17 +149,17 @@ func write<target: OutputStream>(to target: inout target)
 func swap<Thing>(_ a: inout Thing, _ b: inout Thing)
 ```
 
-### **语言\(**Language**\)**
+### 语言（Language）
 
-使用美式英语来定义API。
+使用美式英语拼音符合Apple API的标准。
 
-推荐：
+推荐做法：
 
 ```
 let color = "red"
 ```
 
-不推荐：
+不推荐做法：
 
 ```
 let colour = "red"
@@ -721,9 +721,9 @@ let value = max(x, y, z)  // another free function that feels natural
 
 #### 延长对象生命周期
 
-延长对象生命周期习惯上使用`[weak self]` 和 `guard let strongSelf = self else { return }`。 `[weak self] `优于` [unowned self] `因为前者更更能明显地`self` 生命周期长于闭包块。 显式延长生命周期优先于可选性拆包。
+延长对象生命周期习惯上使用`[weak self]` 和 `guard let strongSelf = self else { return }`。 `[weak self]`优于`[unowned self]`因为前者更更能明显地`self` 生命周期长于闭包块。 显式延长生命周期优先于可选性拆包。
 
-推荐：
+**推荐：**
 
 ```
 resource.request().onComplete { [weak self] response in
@@ -755,27 +755,31 @@ resource.request().onComplete { [weak self] response in
 }
 ```
 
-## 访问控制
+## 访问控制 \(Access Control\)
 
-合理的使用private 和  fileprivate, 推荐使用private，在使用extension时可使用fileprivate。
+合理的使用`private` 和  `fileprivate`, 推荐使用`private`，在使用`extension`时可使用`fileprivate`。
 
-访问控制符一般放在属性修饰符的最前面. 除非需要使用 static 修饰符 ,@IBAction,  @IBOutlet 或 @discardableResult 。
+访问控制符一般放在属性修饰符的最前面. 除非需要使用 `static` 修饰符 ,`@IBAction`,  `@IBOutlet `或 `@discardableResult `。
 
-**正例**
+推荐：
 
-> class TimeMachine {  
->    private dynamic lazy var fluxCapacitor = FluxCapacitor\(\)  
-> }
->
-> private let message = "Great Scott!"
+```
+private let message = "Great Scott!"
 
-**反例**
+class TimeMachine {  
+  fileprivate dynamic lazy var fluxCapacitor = FluxCapacitor()
+}
+```
 
-> class TimeMachine {  
->    lazy dynamic private var fluxCapacitor=FluxCapacitor\(\)  
-> }
->
-> fileprivate let message = "Great Scott!"
+不推荐：
+
+```
+fileprivate let message = "Great Scott!"
+
+class TimeMachine {  
+  lazy dynamic fileprivate var fluxCapacitor = FluxCapacitor()
+}
+```
 
 ## 控制流（Control Flow） {#控制流（Control_Flow）}
 
@@ -785,24 +789,113 @@ resource.request().onComplete { [weak self] response in
 
 ```
 for _ in 0..<3 {
-  println("Hello three times")
+  print("Hello three times")
 }
-for (index, person) in enumerate(attendeeList) {
-  println("\(person) is at position #\(index)")
+
+for (index, person) in attendeeList.enumerated() {
+  print("\(person) is at position #\(index)")
+}
+
+for index in stride(from: 0, to: items.count, by: 2) {
+  print(index)
+}
+
+for index in (0...3).reversed() {
+  print(index)
 }
 ```
 
 不推荐做法：
 
 ```
-for var i = 0; i < 3; i++ {
-  println("Hello three times")
+var i = 0
+while i < 3 {
+  print("Hello three times")
+  i += 1
 }
-for var i = 0; i < attendeeList.count; i++ {
+
+
+var i = 0
+while i < attendeeList.count {
   let person = attendeeList[i]
-  println("\(person) is at position #\(i)")
+  print("\(person) is at position #\(i)")
+  i += 1
 }
 ```
+
+## **黄金路径**
+
+当编码遇到条件判断时，左边的距离是黄金路径或幸福路径，因为路径越短，速度越快。不要嵌套`if`循环，多个返回语句是可以的。`guard` 就为此而生的。  
+推荐：
+
+```
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+
+  guard let context = context else {
+    throw FFTError.noContext
+  }
+  guard let inputData = inputData else {
+    throw FFTError.noInputData
+  }
+
+  // use context and input to compute the frequencies
+  return frequencies
+}
+```
+
+不推荐：
+
+```
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+
+  if let context = context {
+    if let inputData = inputData {
+      // use context and input to compute the frequencies
+
+      return frequencies
+    } else {
+      throw FFTError.noInputData
+    }
+  } else {
+    throw FFTError.noContext
+  }
+}
+```
+
+当有多个条件需要用 `guard` 或 `if let` 解包，可用复合语句避免嵌套。
+
+推荐：
+
+```
+guard let number1 = number1,
+      let number2 = number2,
+      let number3 = number3 else {
+  fatalError("impossible")
+}
+// do something with numbers
+```
+
+不推荐：
+
+```
+if let number1 = number1 {
+  if let number2 = number2 {
+    if let number3 = number3 {
+      // do something with numbers
+    } else {
+      fatalError("impossible")
+    }
+  } else {
+    fatalError("impossible")
+  }
+} else {
+  fatalError("impossible")
+}
+```
+
+#### 失败防护
+
+防护语句的退出有很多方式，一般都是单行语句，如 `return`,`throw`,`break`,`continue` 和` fatalError()`等。 避免出现大的代码块，如果清理代码需要多个退出点，可以用 `defer` 模块避免重复清理代码。
 
 ## 分号（Semicolons） {#分号（Semicolons）}
 
@@ -826,21 +919,35 @@ let swift = "not a scripting language";
 
 注意：Swift与JavaScript有很大的不同，JavaScript认为忽略分号通常认为是[不安全](http://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript)的。
 
-## 语言（Language） {#语言（Language）}
+## 圆括号 \(Parentheses\)
 
-使用美式英语拼音符合Apple API的标准。
+条件判断时圆括号不是必须的，建议省略。
 
-推荐做法：
-
-```
-let color = "red"
-```
-
-不推荐做法：
+推荐：
 
 ```
-let colour = "red"
+if name == "Hello" {
+  print("World")
+}
 ```
+
+不推荐：
+
+```
+if (name == "Hello") {
+  print("World")
+}
+```
+
+在较大的表达式中，可选的括号有时可以使代码更清楚。
+
+```
+let playerMark = (player == current ? "X" : "O")
+```
+
+## 组织和包标识符 \(Organization and Bundle Identifier\)
+
+
 
 ## 版权声明（Copyright Statement） {#版权声明（Copyright_Statement）}
 
