@@ -399,7 +399,7 @@ var diameter: Double {
 }
 ```
 
-### **Final**
+### Final
 
 给那些不打算被继承的类使用`final` 修饰符， 例如:
 
@@ -474,6 +474,17 @@ attendeeList.sort { a, b in
 }
 ```
 
+链式方法使用尾随闭包会更清晰易读，至于如何使用空格，换行，还是使用命名和匿名参数不做具体要求。
+
+```
+let value = numbers.map { $0 * 2 }.filter { $0 % 3 == 0 }.index(of: 90)
+
+let value = numbers
+  .map {$0 * 2}
+  .filter {$0 > 50}
+  .map {$0 + 10}
+```
+
 ## 类型（Types） {#类型（Types）}
 
 尽可能使用 Swift 原生类型。Swift 提供到 Objective-C 类型的桥接，所以你仍然可以使用许多需要的方法。
@@ -492,7 +503,7 @@ let width: NSNumber = 120.0                          // NSNumber
 let widthString: NSString = width.stringValue        // NSString
 ```
 
-在 Sprite Kit 代码中，使用 CGFloat 可以使得代码更加简明，避免很多转换。
+在 Sprite Kit 代码中，使用 `CGFloat` 可以使得代码更加简明，避免很多转换。
 
 ### 常量（Constants） {#常量（Constants）}
 
@@ -500,11 +511,38 @@ let widthString: NSString = width.stringValue        // NSString
 
 提示：一个好的技巧是，使用`let`定义任何东西，只有在编译器告诉我们值需要改变的时候才改成`var`定义。
 
+你可以使用[类型属性](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html)来定义类型常量而不是实例常量，使用static let 可以定义类型属性常量。 这样方式定义类别属性整体上优于全局常量，因为更容易区分于实例属性. 比如:
+
+推荐：
+
+```
+enum Math {
+  static let e = 2.718281828459045235360287
+  static let root2 = 1.41421356237309504880168872
+}
+
+let hypotenuse = side * Math.root2
+```
+
+注意**: **使用枚举的好处是变量不会被无意初始化，且全局有效。  
+不推荐：
+
+```
+let e = 2.718281828459045235360287  // pollutes global namespace
+let root2 = 1.41421356237309504880168872
+
+let hypotenuse = side * root2 // what is root2?
+```
+
+### 静态方法和变量[类型属性](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html) \(Static Methods and Variable Type Properties\)
+
+静态方法和类型属性的工作原理类似于全局方法和全局属性，应该节制使用。它们的使用场景在于如果某些功能局限于特别的类型或和Objective-C 互相调用。
+
 ### 可选类型（Optionals） {#可选类型（Optionals）}
 
-当nil值是可以接受的时候时，定义变量和函数返回值为可选类型\(?\)。
+当nil值是可以接受的时候时，定义变量和函数返回值为可选类型`?`。
 
-当你确认变量在使用前已经被初始化时，使用!来显式的拆包类型，比如在`viewDidLoad`中会初始化`subviews`。
+当你确认变量在使用前已经被初始化时，使用`!`来显式的拆包类型，比如在`viewDidLoad`中会初始化`subviews`。
 
 当你访问一个可选值时，如果只需要访问一次或者在可选值链中有多个可选值时，请使用可选值链：
 
@@ -547,6 +585,28 @@ if let unwrappedSubview = optionalSubview {
 }
 ```
 
+### **延迟初始化 \(**Lazy Initialization**\)**
+
+延迟初始化用来细致地控制对象的生命周期，这对于想实现延迟加载视图的UIViewController特别有用，你可以使用即时被调用闭包或私有构造方法：
+
+```
+lazy var locationManager: CLLocationManager = self.makeLocationManager()
+
+private func makeLocationManager() -> CLLocationManager {
+  let manager = CLLocationManager()
+  manager.desiredAccuracy = kCLLocationAccuracyBest
+  manager.delegate = self
+  manager.requestAlwaysAuthorization()
+  return manager
+}
+```
+
+**注意**：
+
+* `[unowned self]`在这里不是必须的，应为没有产生引用循环。
+
+* Location manager 的负面效果会弹出对话框要求用户提供权限，这是做延时加载的原因。
+
 ### 结构体构造器（Struct Initializers） {#结构体构造器（Struct_Initializers）}
 
 使用原生的 Swift 结构体构造器，比老式的几何类（CGGeometry）的构造器要好。
@@ -576,7 +636,7 @@ let centerPoint = CGPointMake(96, 42)
 ```
 let message = "Click the button"
 let currentBounds = computeViewBounds()
-var names = [String]()
+var names = ["Mic", "Sam", "Christine"]
 let maximumWidth: CGFloat = 106.5
 ```
 
@@ -585,10 +645,28 @@ let maximumWidth: CGFloat = 106.5
 ```
 let message: String = "Click the button"
 let currentBounds: CGRect = computeViewBounds()
-var names: [String] = []
+let names = [String]()
 ```
 
-注意：遵守这条规则意味选择描述性命名比之前变得更加重要。
+#### **类型注解对空的数组和字典**
+
+对空的数据和字典，使用类型注解。
+
+推荐：
+
+```
+var names: [String] = []
+var lookup: [String: Int] = [:]
+```
+
+不推荐：
+
+```
+var names = [String]()
+var lookup = [String: Int]()
+```
+
+**注意：**遵守这条规则意味选择描述性命名比之前变得更加重要。
 
 ### 语法糖（Syntactic Sugar） {#语法糖（Syntactic_Sugar）}
 
@@ -609,6 +687,91 @@ var deviceModels: Array<String>
 var employees: Dictionary<Int, String>
 var faxNumber: Optional<Int>
 ```
+
+## 函数 VS 方法
+
+自由函数不依附于任何类或类型，应该节制地使用。如果可能优先使用方法而不是自由函数，这有助于代码的可读性和易发现性。  
+
+
+自由函数使用的场景是当不确定它和具体的类别或实例相关。
+
+**正例**
+
+> let sorted = items.mergeSort\(\) // 易发现性  
+> rocket.launch\(\)  // 可读性
+
+**反例**
+
+> let sorted = mergeSort\(items\)// 不易被发现  
+> launch\(&rocket\)
+
+**自由函数**
+
+> let tuples = zip\(a, b\)   
+> let value = max\(x,y,z\)// 天然自由函数！
+
+---
+
+## 内存管理
+
+代码应避免指针循环引用，分析对象图谱，使用弱引用和未知引用避免强引用循环. 另外使用值类型\(结构体和枚举\)可以避免循环引用。  
+
+
+#### 延长对象生命周期
+
+延长对象生命周期习惯上使用\[weak self\] 和 guard let strongSelf = self else { return }. \[weak self\] 优于 \[unowned self\] 因为前者更更能明显地self 生命周期长于闭包块。 显式延长生命周期优先于可选性拆包.
+
+**正例**
+
+> resource.request\(\).onComplete { \[weak self\] response in  
+>   guard let strongSelf = self else {return}  
+>   let model = strongSelf.updateModel\(response\)   
+>   strongSelf.updateUI\(model\)  
+> }
+
+**反例**
+
+> // 如果self在response之前销毁会崩溃  
+> resource.request\(\).onComplete { \[unowned self\]  response in  
+>     let model = self.updateModel\(response\)  
+>     self.updateUI\(model\)  
+> }
+
+**反例**
+
+> //self可能在updateModel和updateUI被释放  
+> resource.request\(\).onComplete { \[weak self\] response in  
+>   let model = self?.updateModel\(response\)  
+>   self?.updateUI\(model\)  
+> }
+
+## 
+
+## 访问控制
+
+合理的使用private 和  fileprivate, 推荐使用private，在使用extension时可使用fileprivate。  
+
+
+访问控制符一般放在属性修饰符的最前面. 除非需要使用 static 修饰符 ,@IBAction,  @IBOutlet 或 @discardableResult 。  
+
+
+**正例**
+
+> class TimeMachine {  
+>    private dynamic lazy var fluxCapacitor = FluxCapacitor\(\)  
+> }  
+>
+>
+> private let message = "Great Scott!"
+
+**反例**
+
+> class TimeMachine {  
+>    lazy dynamic private var fluxCapacitor=FluxCapacitor\(\)  
+> }  
+>
+>
+> fileprivate let message = "Great Scott!"
 
 ## 控制流（Control Flow） {#控制流（Control_Flow）}
 
