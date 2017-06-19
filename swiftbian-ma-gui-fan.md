@@ -759,7 +759,7 @@ resource.request().onComplete { [weak self] response in
 
 合理的使用`private` 和  `fileprivate`, 推荐使用`private`，在使用`extension`时可使用`fileprivate`。
 
-访问控制符一般放在属性修饰符的最前面. 除非需要使用 `static` 修饰符 ,`@IBAction`,  `@IBOutlet `或 `@discardableResult `。
+访问控制符一般放在属性修饰符的最前面. 除非需要使用 `static` 修饰符 ,`@IBAction`,  `@IBOutlet`或 `@discardableResult`。
 
 推荐：
 
@@ -823,7 +823,7 @@ while i < attendeeList.count {
 }
 ```
 
-## **黄金路径**
+## **黄金路径 \(**Golden Path**\)**
 
 当编码遇到条件判断时，左边的距离是黄金路径或幸福路径，因为路径越短，速度越快。不要嵌套`if`循环，多个返回语句是可以的。`guard` 就为此而生的。  
 推荐：
@@ -895,7 +895,7 @@ if let number1 = number1 {
 
 #### 失败防护
 
-防护语句的退出有很多方式，一般都是单行语句，如 `return`,`throw`,`break`,`continue` 和` fatalError()`等。 避免出现大的代码块，如果清理代码需要多个退出点，可以用 `defer` 模块避免重复清理代码。
+防护语句的退出有很多方式，一般都是单行语句，如 `return`,`throw`,`break`,`continue` 和`fatalError()`等。 避免出现大的代码块，如果清理代码需要多个退出点，可以用 `defer` 模块避免重复清理代码。
 
 ## 分号（Semicolons） {#分号（Semicolons）}
 
@@ -946,8 +946,6 @@ let playerMark = (player == current ? "X" : "O")
 ```
 
 ## 组织和包标识符 \(Organization and Bundle Identifier\)
-
-
 
 ## 版权声明（Copyright Statement） {#版权声明（Copyright_Statement）}
 
