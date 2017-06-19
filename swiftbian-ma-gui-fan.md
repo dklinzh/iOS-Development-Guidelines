@@ -688,88 +688,92 @@ var employees: Dictionary<Int, String>
 var faxNumber: Optional<Int>
 ```
 
-## 函数 VS 方法
+## 函数 vs 方法 \(Functions vs Methods\)
 
-自由函数不依附于任何类或类型，应该节制地使用。如果可能优先使用方法而不是自由函数，这有助于代码的可读性和易发现性。  
-
+自由函数不依附于任何类或类型，应该节制地使用。如果可能优先使用方法而不是自由函数，这有助于代码的可读性和易发现性。
 
 自由函数使用的场景是当不确定它和具体的类别或实例相关。
 
-**正例**
+推荐:
 
-> let sorted = items.mergeSort\(\) // 易发现性  
-> rocket.launch\(\)  // 可读性
+```
+let sorted = items.mergeSorted()  // easily discoverable
+rocket.launch()  // acts on the model
+```
 
-**反例**
+不推荐：
 
-> let sorted = mergeSort\(items\)// 不易被发现  
-> launch\(&rocket\)
+```
+let sorted = mergeSort(items)  // hard to discover
+launch(&rocket)
+```
 
-**自由函数**
+自由函数：
 
-> let tuples = zip\(a, b\)   
-> let value = max\(x,y,z\)// 天然自由函数！
+```
+let tuples = zip(a, b)  // feels natural as a free function (symmetry)
+let value = max(x, y, z)  // another free function that feels natural
+```
 
----
+## 内存管理 \(Memory Management\)
 
-## 内存管理
-
-代码应避免指针循环引用，分析对象图谱，使用弱引用和未知引用避免强引用循环. 另外使用值类型\(结构体和枚举\)可以避免循环引用。  
-
+代码应避免指针循环引用，分析对象图谱，使用弱引用`weak`和未知引用`unowned`避免强引用循环。另外使用值类型\(`struct`和`enum`\)可以避免循环引用。
 
 #### 延长对象生命周期
 
-延长对象生命周期习惯上使用\[weak self\] 和 guard let strongSelf = self else { return }. \[weak self\] 优于 \[unowned self\] 因为前者更更能明显地self 生命周期长于闭包块。 显式延长生命周期优先于可选性拆包.
+延长对象生命周期习惯上使用`[weak self]` 和 `guard let strongSelf = self else { return }`。 `[weak self] `优于` [unowned self] `因为前者更更能明显地`self` 生命周期长于闭包块。 显式延长生命周期优先于可选性拆包。
 
-**正例**
+推荐：
 
-> resource.request\(\).onComplete { \[weak self\] response in  
->   guard let strongSelf = self else {return}  
->   let model = strongSelf.updateModel\(response\)   
->   strongSelf.updateUI\(model\)  
-> }
+```
+resource.request().onComplete { [weak self] response in
+  guard let strongSelf = self else {
+    return
+  }
+  let model = strongSelf.updateModel(response)
+  strongSelf.updateUI(model)
+}
+```
 
-**反例**
+不推荐：
 
-> // 如果self在response之前销毁会崩溃  
-> resource.request\(\).onComplete { \[unowned self\]  response in  
->     let model = self.updateModel\(response\)  
->     self.updateUI\(model\)  
-> }
+```
+// might crash if self is released before response returns
+resource.request().onComplete { [unowned self] response in
+  let model = self.updateModel(response)
+  self.updateUI(model)
+}
+```
 
-**反例**
+不推荐：
 
-> //self可能在updateModel和updateUI被释放  
-> resource.request\(\).onComplete { \[weak self\] response in  
->   let model = self?.updateModel\(response\)  
->   self?.updateUI\(model\)  
-> }
-
-## 
+```
+// deallocate could happen between updating the model and updating UI
+resource.request().onComplete { [weak self] response in
+  let model = self?.updateModel(response)
+  self?.updateUI(model)
+}
+```
 
 ## 访问控制
 
-合理的使用private 和  fileprivate, 推荐使用private，在使用extension时可使用fileprivate。  
+合理的使用private 和  fileprivate, 推荐使用private，在使用extension时可使用fileprivate。
 
-
-访问控制符一般放在属性修饰符的最前面. 除非需要使用 static 修饰符 ,@IBAction,  @IBOutlet 或 @discardableResult 。  
-
+访问控制符一般放在属性修饰符的最前面. 除非需要使用 static 修饰符 ,@IBAction,  @IBOutlet 或 @discardableResult 。
 
 **正例**
 
 > class TimeMachine {  
->    private dynamic lazy var fluxCapacitor = FluxCapacitor\(\)  
-> }  
->
+>    private dynamic lazy var fluxCapacitor = FluxCapacitor\(\)  
+> }
 >
 > private let message = "Great Scott!"
 
 **反例**
 
 > class TimeMachine {  
->    lazy dynamic private var fluxCapacitor=FluxCapacitor\(\)  
-> }  
->
+>    lazy dynamic private var fluxCapacitor=FluxCapacitor\(\)  
+> }
 >
 > fileprivate let message = "Great Scott!"
 
