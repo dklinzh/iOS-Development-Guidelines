@@ -131,7 +131,7 @@ func namePickerShouldReload() -> Bool
 
 ### 泛型\(Generics\)
 
-泛型类参数应具有描述性，遵守“大骆驼命名法”。如果一个参数名没有具体的含义，可以使用传统单大写字符，如T,  U, 或V等。
+泛型类参数应具有描述性，遵守“大骆驼命名法”。如果一个参数名没有具体的含义，可以使用传统单大写字符，如T,  U, 或V等。
 
 推荐：
 
@@ -164,6 +164,78 @@ let color = "red"
 ```
 let colour = "red"
 ```
+
+## 代码组织结构\(Code Organization\)
+
+使用`extension`来组织你的功能逻辑块中的代码结构。每个extension应该使用注释`// MARK: -`分割以保持代码的良好组织。
+
+### 协议一致性\(Protocol Conformance\)
+
+当一个对象要实现协议一致性时，推荐使用 `extension` 隔离协议中的方法集，这样让相关方法和协议集中显示在一起，也简化了类支持一个协议和实现相关方法的流程。  
+推荐：
+
+```
+class MyViewController: UIViewController {
+  // class stuff here
+}
+
+// MARK: - UITableViewDataSource
+extension MyViewController: UITableViewDataSource {
+  // table view data source methods
+}
+
+// MARK: - UIScrollViewDelegate
+extension MyViewController: UIScrollViewDelegate {
+  // scroll view delegate methods
+}
+```
+
+不推荐：
+
+```
+class MyViewController: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
+  // all methods
+}
+```
+
+对于UIKit view controllers, 建议用extensions定义不同的类，按照生命周期，自定义方法，IBAction分组。
+
+### **无用代码\(**Unused Code**\)**
+
+无用的代码，包括Xcode生成的模板代码和占位符注释应该删除，除非是有目的性的保留这些代码。
+
+一些方法内只是简单地调用了父类里面的方法也需要删除，包括UIApplicationDelegate内的空方法和无用方法。
+
+推荐：
+
+```
+override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  return Database.contacts.count
+}
+```
+
+不推荐：
+
+```
+override func didReceiveMemoryWarning() {
+  super.didReceiveMemoryWarning()
+  // Dispose of any resources that can be recreated.
+}
+
+override func numberOfSections(in tableView: UITableView) -> Int {
+  // #warning Incomplete implementation, return the number of sections
+  return 1
+}
+
+override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  // #warning Incomplete implementation, return the number of rows
+  return Database.contacts.count
+}
+```
+
+### 最少引入\(Minimal Imports\)
+
+减少不必要的引入，例如引入`Foundation`能满足的情况下不用引入`UIKit`。
 
 ## 空格（Spacing）
 
