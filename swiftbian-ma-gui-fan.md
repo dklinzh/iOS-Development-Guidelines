@@ -245,7 +245,7 @@ override func tableView(_ tableView: UITableView, numberOfRowsInSection section:
 
 Xcode indent settings
 
-* 方法定义的大括号或者其他大括号（if/else/switch/while等）—— 般都放在定义名称的同一行，并且使用一个新的行来结束。
+* 方法定义的大括号或者其他大括号（`if`/`else`/`switch`/`while`等）—— 般都放在定义名称的同一行，并且使用一个新的行来结束。
 
 * 提示：你可以通过以下方法重新进行缩进：选择一些代码（或者使用⌘A选择所有），然后按Control-I\(或者点击菜单栏 Editor\Structure\Re-Indent）。一些Xcode模板代码使用的缩进是4个空格，所以这种方法可以很好的修复缩进。
 
@@ -272,6 +272,29 @@ else {
 ```
 
 * 应该在方法之间空出一行，从视觉上有更好的区分和组织。方法内的空白行隔开不同的功能，但是当一个方法中有很多段落时，也意味着你应该将该方法重构成几个方法。
+* 冒号总是在左边不留空格，右边留有一个空格。例外有三元运算符`? :`, 空字典`[:]`和`#selector`语法中的未命名参数`(_:)`
+
+推荐：
+
+```
+class TestDatabase: Database {
+  var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+}
+```
+
+不推荐：
+
+```
+class TestDatabase : Database {
+  var data :[String:CGFloat] = ["A" : 1.2, "B":3.2]
+}
+```
+
+* 长行代码应该被限制在大约70个字符里。硬限制是故意不指定的。
+
+* 避免在每行的末尾留有空格。
+
+* 在每个文件的末尾添加一个换行符。
 
 ## 注释（Comments） {#注释（Comments）}
 
