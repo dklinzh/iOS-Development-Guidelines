@@ -169,36 +169,37 @@ let colour = "red"
 
 使用`extension`来组织你的功能逻辑块中的代码结构。每个extension应该使用注释`// MARK: -`分割以保持代码的良好组织。
 
-### 协议一致性\(Protocol Conformance\)
+### 协议遵守（Protocol Conformance） {#协议遵守（Protocol_Conformance）}
 
-当一个对象要实现协议一致性时，推荐使用 `extension` 隔离协议中的方法集，这样让相关方法和协议集中显示在一起，也简化了类支持一个协议和实现相关方法的流程。  
-推荐：
+当我们对一个类添加协议时，推荐使用一个单独的类扩展`extension`来实现协议的方法。这可以保持协议相关的方法聚合在一起，同时也可以简单的标识出一个协议对应类中需要实现哪些对应的方法。
+
+同时，别忘了添加`// MARK:`，注释可以使得代码组织的更好！
+
+推荐做法：
 
 ```
-class MyViewController: UIViewController {
+class MyViewcontroller: UIViewController {
   // class stuff here
 }
-
 // MARK: - UITableViewDataSource
-extension MyViewController: UITableViewDataSource {
+extension MyViewcontroller: UITableViewDataSource {
   // table view data source methods
 }
-
 // MARK: - UIScrollViewDelegate
-extension MyViewController: UIScrollViewDelegate {
+extension MyViewcontroller: UIScrollViewDelegate {
   // scroll view delegate methods
 }
 ```
 
-不推荐：
+不推荐做法：
 
 ```
-class MyViewController: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
+class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
   // all methods
 }
 ```
 
-对于UIKit view controllers, 建议用extensions定义不同的类，按照生命周期，自定义方法，IBAction分组。
+对于UIKit view controllers, 建议用`extension`定义不同的类，按照生命周期，自定义方法，IBAction分组。
 
 ### **无用代码\(**Unused Code**\)**
 
@@ -354,6 +355,8 @@ class Circle: Shape {
 * 如果能表示相同的目的和上下文，可以在同一行定义多个变量和结构体。
 * 缩进getter，setter的定义和属性观察器的定义。
 * 不需要添加`internal`这样的默认的修饰符。同样的，不需要在重写一个方法时添加访问修饰符。
+* 在扩展中组织额外的功能（如打印）
+* 隐藏非共享的实现细节，如在扩展中的`centerString`内使用`private`访问控制。
 
 ### Self的使用（Use of Self） {#Self的使用（Use_of_Self）}
 
@@ -371,36 +374,6 @@ class BoardLocation {
       println(self.row)
     }
   }
-}
-```
-
-### 协议遵守（Protocol Conformance） {#协议遵守（Protocol_Conformance）}
-
-当我们对一个类添加协议时，推荐使用一个单独的类扩展来实现协议的方法。这可以保持协议相关的方法聚合在一起，同时也可以简单的标识出一个协议对应类中需要实现哪些对应的方法。
-
-同时，别忘了添加// MARK:，注释可以使得代码组织的更好！
-
-推荐做法：
-
-```
-class MyViewcontroller: UIViewController {
-  // class stuff here
-}
-// MARK: - UITableViewDataSource
-extension MyViewcontroller: UITableViewDataSource {
-  // table view data source methods
-}
-// MARK: - UIScrollViewDelegate
-extension MyViewcontroller: UIScrollViewDelegate {
-  // scroll view delegate methods
-}
-```
-
-不推荐做法：
-
-```
-class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
-  // all methods
 }
 ```
 
@@ -422,6 +395,20 @@ var diameter: Double {
 var diameter: Double {
   get {
     return radius * 2
+  }
+}
+```
+
+### **Final**
+
+给那些不打算被继承的类使用`final` 修饰符， 例如:
+
+```
+// Turn any generic type into a reference type using this Box class.
+final class Box<T> {
+  let value: T
+  init(_ value: T) {
+    self.value = value
   }
 }
 ```
