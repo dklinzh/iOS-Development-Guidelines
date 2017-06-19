@@ -4,7 +4,7 @@
 
 该[文档](https://dklinzh.gitbooks.io/ios-development-guidelines/content/)主要面向iOS开发团队，以[Coding Guidelines for Cocoa](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146-SW1)为基础针对编码、项目架构、开发实践等进行规范和约定。持续更新中......
 
-## Summary
+# Summary
 
 * [0. 介绍](README.md)
 * [1. 序言](1.md)
@@ -27,6 +27,7 @@
   * [7.1. Xcode扩展插件](7/71.md)
   * [7.2. 第三方开源库](7/72.md)
 * [8. 参考](8.md)
+* [\* Swift编码规范](swiftbian-ma-gui-fan.md)
 
 
 
