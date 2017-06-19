@@ -2,7 +2,7 @@
 
 ---
 
-## **正确性**
+## **正确性\(**Correctness**\)**
 
 把警告当做错误处理。这条规则从根本禁止了一些文法使用，如推荐使用**\#selector**文而不是用字符串\(更多请阅读[Swift 3为什么推荐使用\#selector](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md)\)。
 
@@ -30,6 +30,22 @@ class app_widgetContainer {
 }
 ```
 
+缩写和简写应该要尽量避免，遵守苹果命名规范，缩写和简写中的所有字符大小写要一致。
+
+推荐：
+
+```
+let urlString:  URLString
+let userID:  UserID
+```
+
+不推荐：
+
+```
+let uRLString:  UrlString
+let userId:  UserId
+```
+
 对于函数和初始化方法，推荐对所有的参数进行有意义的命名，除非上下文已经非常清楚。如果外部参数命名可以使得函数调用更加可读，也应该把外部参数命名包含在内。
 
 ```
@@ -50,6 +66,10 @@ class Guideline {
   func upvoteBy(amount: Int) { ... }
 }
 ```
+
+### 协议\(Protocol\)
+
+根据苹果接口设计指导准则，协议名称用来描述一些东西是什么的时候是名词，例如：Collection,WidgetFactory。若协议名称用来描述能力应该以-ing, -able, 或 -ible结尾，例如：Equatable,Resizing。
 
 ### 枚举\(Enumerations\)
 
@@ -89,6 +109,60 @@ Swift类型自动被模块名设置了名称空间，所以你不需要加一个
 ```
 import SomeModule
 let myClass = MyModule.UsefulClass()
+```
+
+### **委托\(Delegate\)**
+
+在定义委托方法时，第一个未命名参数应是委托数据源。 \([为了保持参数声明的一致性](https://github.com/apple/swift-evolution/blob/e4328889a9643100177aef19f6f428855c5d0cf2/proposals/0046-first-label.md)[在Swift3引入的](https://github.com/apple/swift-evolution/blob/e4328889a9643100177aef19f6f428855c5d0cf2/proposals/0046-first-label.md)\)
+
+推荐：
+
+```
+func namePickerView(_ namePickerView: NamePickerView, didSelectName name: String)
+func namePickerViewShouldReload(_ namePickerView: NamePickerView) -> Bool
+```
+
+不推荐：
+
+```
+func didSelectName(namePicker: NamePickerViewController, name: String)
+func namePickerShouldReload() -> Bool
+```
+
+### 泛型\(Generics\)
+
+泛型类参数应具有描述性，遵守“大骆驼命名法”。如果一个参数名没有具体的含义，可以使用传统单大写字符，如T,  U, 或V等。
+
+推荐：
+
+```
+struct Stack<Element> { ... }
+func write<Target: OutputStream>(to target: inout Target)
+func swap<T>(_ a: inout T, _ b: inout T)
+```
+
+不推荐：
+
+```
+struct Stack<T> { ... }
+func write<target: OutputStream>(to target: inout target)
+func swap<Thing>(_ a: inout Thing, _ b: inout Thing)
+```
+
+### **语言\(**Language**\)**
+
+使用美式英语来定义API。
+
+推荐：
+
+```
+let color = "red"
+```
+
+不推荐：
+
+```
+let colour = "red"
 ```
 
 ## 空格（Spacing）
