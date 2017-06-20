@@ -2,11 +2,11 @@
 
 ---
 
-## **正确性\(**Correctness**\)**
+## **正确性 \(**Correctness**\)**
 
 把警告当做错误处理。这条规则从根本禁止了一些文法使用，如推荐使用**\#selector**文而不是用字符串\(更多请阅读[Swift 3为什么推荐使用\#selector](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md)\)。
 
-## 命名\(Naming\)
+## 命名 \(Naming\)
 
 使用驼峰式的描述性命名方式，为类，方法，变量等命名。类名的首字母应该大写，而方法和变量的首字母使用小写字符。
 
@@ -67,11 +67,11 @@ class Guideline {
 }
 ```
 
-### 协议\(Protocol\)
+### 协议 \(Protocol\)
 
 根据苹果接口设计指导准则，协议名称用来描述一些东西是什么的时候是名词，例如：Collection,WidgetFactory。若协议名称用来描述能力应该以-ing, -able, 或 -ible结尾，例如：Equatable,Resizing。
 
-### 枚举\(Enumerations\)
+### 枚举 \(Enumerations\)
 
 使用首字母大写的驼峰命名规则来命名枚举值：
 
@@ -84,7 +84,7 @@ enum Shape {
 }
 ```
 
-### 文章（Prose）
+### 文章 \(Prose\)
 
 当我们在文章中（教程，图书，注释等）需要引用到函数时，需要从调用者的视角考虑，包含必要的参数命名，或者使用`_`表示不需要命名的参数。
 
@@ -102,7 +102,7 @@ enum Shape {
 
 Methods in Xcode jump bar
 
-### 类的前缀\(Class Prefixes\)
+### 类的前缀 \(Class Prefixes\)
 
 Swift类型自动被模块名设置了名称空间，所以你不需要加一个类的前缀。如果两个来自不同模块的命名冲突了，你可以附加一个模块名到类型命名的前面来消除冲突。
 
@@ -111,7 +111,7 @@ import SomeModule
 let myClass = MyModule.UsefulClass()
 ```
 
-### **委托\(Delegate\)**
+### **委托 \(Delegate\)**
 
 在定义委托方法时，第一个未命名参数应是委托数据源。 \([为了保持参数声明的一致性](https://github.com/apple/swift-evolution/blob/e4328889a9643100177aef19f6f428855c5d0cf2/proposals/0046-first-label.md)[在Swift3引入的](https://github.com/apple/swift-evolution/blob/e4328889a9643100177aef19f6f428855c5d0cf2/proposals/0046-first-label.md)\)
 
@@ -129,7 +129,7 @@ func didSelectName(namePicker: NamePickerViewController, name: String)
 func namePickerShouldReload() -> Bool
 ```
 
-### 泛型\(Generics\)
+### 泛型 \(Generics\)
 
 泛型类参数应具有描述性，遵守“大骆驼命名法”。如果一个参数名没有具体的含义，可以使用传统单大写字符，如T,  U, 或V等。
 
@@ -149,7 +149,7 @@ func write<target: OutputStream>(to target: inout target)
 func swap<Thing>(_ a: inout Thing, _ b: inout Thing)
 ```
 
-### 语言（Language）
+### 语言 \(Language\)
 
 使用美式英语拼音符合Apple API的标准。
 
@@ -165,7 +165,7 @@ let color = "red"
 let colour = "red"
 ```
 
-## 代码组织结构\(Code Organization\)
+## 代码组织结构 \(Code Organization\)
 
 使用`extension`来组织你的功能逻辑块中的代码结构。每个extension应该使用注释`// MARK: -`分割以保持代码的良好组织。
 
@@ -201,7 +201,7 @@ class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDel
 
 对于UIKit view controllers, 建议用`extension`定义不同的类，按照生命周期，自定义方法，IBAction分组。
 
-### **无用代码\(**Unused Code**\)**
+### **无用代码 \(**Unused Code**\)**
 
 无用的代码，包括Xcode生成的模板代码和占位符注释应该删除，除非是有目的性的保留这些代码。
 
