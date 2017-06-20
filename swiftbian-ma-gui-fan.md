@@ -6,7 +6,7 @@
 
 把警告当做错误处理。这条规则从根本禁止了一些文法使用，如推荐使用**\#selector**文而不是用字符串\(更多请阅读[Swift 3为什么推荐使用\#selector](https://github.com/apple/swift-evolution/blob/master/proposals/0022-objc-selectors.md)\)。
 
-## 命名\(Naming\) {#命名(Naming)}
+## 命名\(Naming\)
 
 使用驼峰式的描述性命名方式，为类，方法，变量等命名。类名的首字母应该大写，而方法和变量的首字母使用小写字符。
 
@@ -102,7 +102,7 @@ enum Shape {
 
 Methods in Xcode jump bar
 
-### 类的前缀\(Class Prefixes\) {#类的前缀(Class_Prefixes)}
+### 类的前缀\(Class Prefixes\)
 
 Swift类型自动被模块名设置了名称空间，所以你不需要加一个类的前缀。如果两个来自不同模块的命名冲突了，你可以附加一个模块名到类型命名的前面来消除冲突。
 
@@ -169,7 +169,7 @@ let colour = "red"
 
 使用`extension`来组织你的功能逻辑块中的代码结构。每个extension应该使用注释`// MARK: -`分割以保持代码的良好组织。
 
-### 协议遵守（Protocol Conformance） {#协议遵守（Protocol_Conformance）}
+### 协议遵守（Protocol Conformance）
 
 当我们对一个类添加协议时，推荐使用一个单独的类扩展`extension`来实现协议的方法。这可以保持协议相关的方法聚合在一起，同时也可以简单的标识出一个协议对应类中需要实现哪些对应的方法。
 
@@ -297,15 +297,15 @@ class TestDatabase : Database {
 
 * 在每个文件的末尾添加一个换行符。
 
-## 注释（Comments） {#注释（Comments）}
+## 注释（Comments）
 
 当你需要时，使用注释来解释一段特定的代码段的作用。注释必须保证更新或者及时删除。
 
 避免在代码中使用块注释，代码尽可能自己能表达含义。以下情况除外：当使用注释来生成文档时。
 
-## 类和结构体（Classes and Structures） {#类和结构体（Classes_and_Structures）}
+## 类和结构体（Classes and Structures）
 
-### 选择使用谁？（Which one to use?） {#选择使用谁？（Which_one_to_use?）}
+### 选择使用谁？（Which one to use?）
 
 请记住，结构体是[值类型](https://developer.apple.com/library/mac/documentation/Swift/Conceptual/Swift_Programming_Language/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13-XID_144)。使用结构体并没有一个标识。一个数组包含`[a, b, c]`和另外一个数组同样包含`[a, b, c]`是完全一样的，它们完全可以交换使用。使用第一个还是使用第二个无关紧要，因为它们代表的是同一个东西。这就是为什么数组是结构体。
 
@@ -313,7 +313,7 @@ class TestDatabase : Database {
 
 有时，一些事物应该定义为结构体，但是需要兼容AnyObject或者已经在以前的历史版本中定义为类（`NSDate`，`NSSet`）。尽可能的尝试遵守这些规则。
 
-### 定义的案例（Example definition） {#定义的案例（Example_definition）}
+### 定义的案例（Example definition）
 
 以下是一个风格很好的类定义:
 
@@ -358,7 +358,7 @@ class Circle: Shape {
 * 在扩展中组织额外的功能（如打印）
 * 隐藏非共享的实现细节，如在扩展中的`centerString`内使用`private`访问控制。
 
-### Self的使用（Use of Self） {#Self的使用（Use_of_Self）}
+### Self的使用（Use of Self）
 
 为了保持简洁，避免使用 self 关键词，Swift 不需要使用`self`来访问对象属性和调用对象方法。
 
@@ -377,7 +377,7 @@ class BoardLocation {
 }
 ```
 
-### 计算属性（Computed Properties） {#计算属性（Computed_Properties）}
+### 计算属性（Computed Properties）
 
 为了保持简洁，如果一个计算属性是只读的，请忽略掉get语句。只有在需要定义set语句的时候，才提供get语句。
 
@@ -413,7 +413,7 @@ final class Box<T> {
 }
 ```
 
-## 函数声明（Function Declarations） {#函数声明（Function_Declarations）}
+## 函数声明（Function Declarations）
 
 保证短的函数定义在同一行中，并且包含左大括号：
 
@@ -432,7 +432,7 @@ func reticulateSplines(spline: [Double], adjustmentFactor: Double,
 }
 ```
 
-## 闭包表达式（Closure Expressions） {#闭包表达式（Closure_Expressions）}
+## 闭包表达式（Closure Expressions）
 
 如果闭包表达式参数在参数列表中的最后一个时，使用尾部闭包表达式。给定闭包参数一个描述性的命名。
 
@@ -485,7 +485,7 @@ let value = numbers
   .map {$0 + 10}
 ```
 
-## 类型（Types） {#类型（Types）}
+## 类型（Types）
 
 尽可能使用 Swift 原生类型。Swift 提供到 Objective-C 类型的桥接，所以你仍然可以使用许多需要的方法。
 
@@ -505,7 +505,7 @@ let widthString: NSString = width.stringValue        // NSString
 
 在 Sprite Kit 代码中，使用 `CGFloat` 可以使得代码更加简明，避免很多转换。
 
-### 常量（Constants） {#常量（Constants）}
+### 常量（Constants）
 
 常量定义使用`let`关键字，变量定义使用`var`关键字，如果变量的值不需要改变，请尽量使用`let`关键字。
 
@@ -538,7 +538,7 @@ let hypotenuse = side * root2 // what is root2?
 
 静态方法和类型属性的工作原理类似于全局方法和全局属性，应该节制使用。它们的使用场景在于如果某些功能局限于特别的类型或和Objective-C 互相调用。
 
-### 可选类型（Optionals） {#可选类型（Optionals）}
+### 可选类型（Optionals）
 
 当nil值是可以接受的时候时，定义变量和函数返回值为可选类型`?`。
 
@@ -607,7 +607,7 @@ private func makeLocationManager() -> CLLocationManager {
 
 * Location manager 的负面效果会弹出对话框要求用户提供权限，这是做延时加载的原因。
 
-### 结构体构造器（Struct Initializers） {#结构体构造器（Struct_Initializers）}
+### 结构体构造器（Struct Initializers）
 
 使用原生的 Swift 结构体构造器，比老式的几何类（CGGeometry）的构造器要好。
 
@@ -627,7 +627,7 @@ let centerPoint = CGPointMake(96, 42)
 
 推荐使用结构体限定的常量`CGRect.infiniteRect`,`CGRect.nullRect`等，来替代全局常量`CGRectInfinite`,`CGRectNull`等。对于已经存在的变量，可以直接简写成`.zeroRect`。
 
-### 类型推断（Type Inference） {#类型推断（Type_Inference）}
+### 类型推断（Type Inference）
 
 推荐使用更加紧凑的代码，让编译器能够推断出常量和变量的类型。除非你需要定义一个特定的类型\(比如`CGFloat`和`Int16`\)，而不是默认的类型。
 
@@ -668,7 +668,7 @@ var lookup = [String: Int]()
 
 **注意：**遵守这条规则意味选择描述性命名比之前变得更加重要。
 
-### 语法糖（Syntactic Sugar） {#语法糖（Syntactic_Sugar）}
+### 语法糖（Syntactic Sugar）
 
 推荐使用类型定义简洁的版本，而不是全称通用语法。
 
@@ -781,7 +781,7 @@ class TimeMachine {
 }
 ```
 
-## 控制流（Control Flow） {#控制流（Control_Flow）}
+## 控制流（Control Flow）
 
 推荐循环使用`for-in`表达式，而不使用`for-condition-increment`表达式。
 
@@ -897,7 +897,7 @@ if let number1 = number1 {
 
 防护语句的退出有很多方式，一般都是单行语句，如 `return`,`throw`,`break`,`continue` 和`fatalError()`等。 避免出现大的代码块，如果清理代码需要多个退出点，可以用 `defer` 模块避免重复清理代码。
 
-## 分号（Semicolons） {#分号（Semicolons）}
+## 分号（Semicolons）
 
 Swift 不需要在你代码中的每一句表达式之后添加分号。只有在你需要在一行中连接多个表达式中，使用分号来区隔。
 
@@ -947,7 +947,7 @@ let playerMark = (player == current ? "X" : "O")
 
 ## 组织和包标识符 \(Organization and Bundle Identifier\)
 
-## 版权声明（Copyright Statement） {#版权声明（Copyright_Statement）}
+## 版权声明（Copyright Statement）
 
 以下的版权声明应该被包含在所有源文件的顶部：
 
