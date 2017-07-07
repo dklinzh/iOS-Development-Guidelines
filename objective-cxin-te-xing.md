@@ -96,8 +96,8 @@ NSDictionary<NSString *, NSNumber *> *mapping = @{@"a": @1, @"b": @2};
 
 ## covariant && contravariant
 
-* \_\_covariant : 子类型可以强转到父类型（里氏替换原则）
-* \_\_contravariant : 父类型可以强转到子类型
+* `__covariant` : 子类型可以强转到父类型（里氏替换原则）
+* `__contravariant` : 父类型可以强转到子类型
 
 参考 NSArray 和 NSMutableArray 的定义
 
@@ -139,13 +139,13 @@ Objective-C 中主要通过`NS_DESIGNATED_INITIALIZER`宏来实现指定构造�
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 ```
 
-类似 swift 的指定初始化，原则如下（类比 swift 的构造构成）：
+类似 Swift 的指定初始化，原则如下（类比 Swift 的构造构成）：
 
 * 每个类的正确初始化过程应当是按照从子类到父类的顺序，依次调用每个类的Designated Initializer。并且用父类的Designated Initializer初始化一个子类对象，也需要遵从这个过程。
 * 如果子类指定了新的初始化器，那么在这个初始化器内部必须调用父类的Designated Initializer。并且需要重写父类的Designated Initializer，将其指向子类新的初始化器。
 * 你可以不自定义Designated Initializer，也可以重写父类的Designated Initializer，但需要调用直接父类的Designated Initializer。
 * 如果有多个Secondary initializers\(次要初始化器\)，它们之间可以任意调用，但最后必须指向Designated Initializer。在Secondary initializers内不能直接调用父类的初始化器。
-* 如果有多个不同数据源的Designated Initializer，那么不同数据源下的Designated Initializer应该调用相应的\[super \(designated initializer\)\]。如果父类没有实现相应的方法，则需要根据实际情况来决定是给父类补充一个新的方法还是调用父类其他数据源的Designated Initializer。比如UIView的initWithCoder调用的是NSObject的init。
+* 如果有多个不同数据源的Designated Initializer，那么不同数据源下的Designated Initializer应该调用相应的`[super (designated initializer)]`。如果父类没有实现相应的方法，则需要根据实际情况来决定是给父类补充一个新的方法还是调用父类其他数据源的Designated Initializer。比如UIView的`initWithCoder`调用的是NSObject的`init`。
 * 需要注意不同数据源下添加额外初始化动作的时机。
 
 
