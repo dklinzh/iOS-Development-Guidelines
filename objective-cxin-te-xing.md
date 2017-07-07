@@ -22,10 +22,10 @@
 + (nullable NSString *)friendWithName:(nonnull NSString *)name;
 ```
 
-修饰变量，前面需要加双下划线，比如 block 内用法：
+修饰变量，前面需要加下划线，比如 block 内用法：
 
 ```
-- (void)startWithCompletionBlock:(nullable void (^)(NSError * __nullable error))block;
+- (void)startWithCompletionBlock:(nullable void (^)(NSError * _Nullable error))block;
 ```
 
 setter 用法，参见 UIViewController 中的 view 属性，它可以被设成 nil，但是调用 getter 时会触发 -loadView 从而创建并返回一个非 nil 的 view。
@@ -34,7 +34,7 @@ setter 用法，参见 UIViewController 中的 view 属性，它可以被设成 
 @property (null_resettable, nonatomic, strong) UIView *view;
 ```
 
-宏的用法（包在宏里面的对象默认加 nonnull 修饰符，只需要把 nullable 的指出来就行）：
+宏的用法（包在宏里面的对象默认加 `nonnull` 修饰符，只需要把 `nullable` 的指出来就行）：
 
 ```
 NS_ASSUME_NONNULL_BEGIN
@@ -46,7 +46,13 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-Nullability 主要作用是在编译器层面提供了空值的类型检查，在类型不符时给出 warning，方便开发者第一时间发现潜在问题。
+[Nullability](https://developer.apple.com/swift/blog/?id=25) 主要作用是在编译器层面提供了空值的类型检查，在类型不符时给出 warning，方便开发者第一时间发现潜在问题。
+
+* 对于属性、方法返回值、方法参数的修饰，使用：`nonnull`/`nullable`；
+* 对于 C 函数的参数、Block 的参数、Block 返回值的修饰，使用：`_Nonnull`/`_Nullable`，建议弃用~~ `__nonnull`/`__nullable`~~；
+* 通过 `typedef` 定义的类型的 nullability 特性通常依赖于上下文，即使是在 Audited Regions 中，也不能假定它为 `nonnull`；
+* 对于复杂的指针类型（如 `id *`）必须显式去指定是 `nonnull` 还是 `nullable`。例如，指定一个指向 `nullable` 对象的 `nonnull` 指针，可以使用` __nullable id * __nonnull`；
+* 我们经常使用的 `NSError **` 通常是被假定为一个指向 `nullable` NSError 对象的`nullable` 指针。
 
 ## \_\_kindof {#kindof}
 
