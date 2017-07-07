@@ -88,7 +88,7 @@ NSDictionary<NSString *, NSNumber *> *mapping = @{@"a": @1, @"b": @2};
 @interface Stack<ObjectType: id<NSCopying>> : NSObject
 ```
 
-### covariant && contravariant {#covariant-amp-amp-contravariant}
+## covariant && contravariant
 
 * \_\_covariant : 子类型可以强转到父类型（里氏替换原则）
 * \_\_contravariant : 父类型可以强转到子类型
@@ -142,6 +142,5 @@ Objective-C 中主要通过`NS_DESIGNATED_INITIALIZER`宏来实现指定构造�
 * 如果有多个不同数据源的Designated Initializer，那么不同数据源下的Designated Initializer应该调用相应的\[super \(designated initializer\)\]。如果父类没有实现相应的方法，则需要根据实际情况来决定是给父类补充一个新的方法还是调用父类其他数据源的Designated Initializer。比如UIView的initWithCoder调用的是NSObject的init。
 * 需要注意不同数据源下添加额外初始化动作的时机。
 
-  
 
 
