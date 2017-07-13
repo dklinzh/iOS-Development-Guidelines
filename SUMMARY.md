@@ -25,5 +25,5 @@
 * [9. iOS开发优化](9.md)
 * [\* Swift编码规范](swiftbian-ma-gui-fan.md)
 * [Objective-C新特性](objective-cxin-te-xing.md)
-* [生命周期](sheng-ming-zhou-qi.md)
+* [iOS生命周期](sheng-ming-zhou-qi.md)
 
